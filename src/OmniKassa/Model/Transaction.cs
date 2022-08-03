@@ -5,21 +5,6 @@ using OmniKassa.Utils;
 
 namespace OmniKassa.Model
 {
-    //  "transactionId": "22b36073-57a3-4c3d-9585-87f2e55275a5",
-    //           "paymentBrand": "IDEAL",
-    //           "transactionType": "AUTHORIZE",
-    //           "transactionStatus": "SUCCESS",
-    //           "amount": {
-    //             "amount": 10997,
-    //             "currency": "EUR"
-    //           },
-    //           "confirmedAmount": {
-    //             "amount": 10997,
-    //             "currency": "EUR"
-    //           },
-    //           "startDateTime": "2018-03-20T09:12:28Z",
-    //           "lastUpdateTime": "2018-03-20T09:12:28Z"
-
     public class Transaction
     {
         /// <summary>
