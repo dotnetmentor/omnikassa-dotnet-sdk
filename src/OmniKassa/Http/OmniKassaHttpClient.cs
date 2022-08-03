@@ -16,7 +16,7 @@ namespace OmniKassa.Http
     public sealed partial class OmniKassaHttpClient : IDisposable
     {
         private static readonly string PATH_ANNOUNCE_ORDER = "order/server/api/v2/order";
-        private static readonly string PATH_GET_ORDER_STATUS = "order/server/api/events/results/";
+        private static readonly string PATH_GET_ORDER_STATUS = "order/server/api/v2/events/results/";
         private static readonly string PATH_GET_PAYMENT_BRANDS = "order/server/api/payment-brands";
         private static readonly string PATH_GET_IDEAL_ISSUERS = "ideal/server/api/v2/issuers";
         private static readonly string PATH_GET_ACCESS_TOKEN = "gatekeeper/refresh";

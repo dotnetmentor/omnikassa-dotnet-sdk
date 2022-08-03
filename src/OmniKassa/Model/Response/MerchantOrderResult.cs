@@ -30,11 +30,11 @@ namespace OmniKassa.Model.Response
         [JsonProperty(PropertyName = "omnikassaOrderId")]
         public String OmnikassaOrderId { get; private set; }
 
-        
+
         [JsonProperty(PropertyName = "orderStatus")]
-        #pragma warning disable 0649
+#pragma warning disable 0649
         private String orderStatus;
-        #pragma warning restore 0649
+#pragma warning restore 0649
 
         /// <summary>
         /// State of the order
@@ -54,9 +54,9 @@ namespace OmniKassa.Model.Response
         public String ErrorCode { get; private set; }
 
         [JsonProperty(PropertyName = "orderStatusDateTime")]
-        #pragma warning disable 0649
+#pragma warning disable 0649
         private String orderStatusDateTime;
-        #pragma warning restore 0649
+#pragma warning restore 0649
 
         /// <summary>
         /// Currency which was used to pay
@@ -75,11 +75,17 @@ namespace OmniKassa.Model.Response
         /// </summary>
         public DateTime OrderStatusDateTime
         {
-            get 
+            get
             {
                 return DateTimeUtils.StringToDate(orderStatusDateTime);
-            } 
+            }
         }
+
+        /// <summary>
+        /// All the transactions of the order
+        /// </summary>
+        [JsonProperty(PropertyName = "transactions")]
+        public List<Transaction> Transactions { get; private set; }
 
         /// <summary>
         /// Gets the signature data
