@@ -1,5 +1,3 @@
-using System;
-
 namespace OmniKassa.Model.Enums
 {
     /// <summary>

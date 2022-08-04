@@ -5,6 +5,7 @@ using OmniKassa.Model;
 using OmniKassa.Model.Order;
 using OmniKassa.Model.Response;
 using OmniKassa.Model.Response.Notification;
+using System;
 using System.Threading.Tasks;
 
 namespace OmniKassa
@@ -54,6 +55,30 @@ namespace OmniKassa
 
             MerchantOrderStatusResponse response = await httpClient.GetOrderStatusData(notification);
             return response;
+        }
+
+        /// <summary>
+        /// Initiates a refund on a transaction and returns the refund and the status of the refund
+        /// </summary>
+        /// <param name="transactionId">The ID of the transacion to refund</param>
+        /// <param name="requestId">Unique value to enforce idempotency</param>
+        /// <param name="refundRequest">The refund request with amount and currency to refund. Optional description and Vat category</param>
+        /// <returns>Refund status info</returns>
+        public async Task<RefundResponse> InitiateRefund(String transactionId, String requestId, RefundRequest refundRequest)
+        {
+            await ValidateAccessToken();
+
+            try
+            {
+                return await httpClient.InitiateRefund(transactionId, requestId, refundRequest, tokenProvider.GetAccessToken());
+            }
+            catch (InvalidAccessTokenException)
+            {
+                // We might have mistakenly assumed the token was still valid
+                await RetrieveNewToken();
+
+                return await httpClient.InitiateRefund(transactionId, requestId, refundRequest, tokenProvider.GetAccessToken());
+            }
         }
 
         /// <summary>

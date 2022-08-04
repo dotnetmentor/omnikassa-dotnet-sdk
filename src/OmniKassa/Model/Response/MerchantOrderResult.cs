@@ -85,7 +85,7 @@ namespace OmniKassa.Model.Response
         /// All the transactions of the order
         /// </summary>
         [JsonProperty(PropertyName = "transactions")]
-        public List<Transaction> Transactions { get; private set; }
+        public List<TransactionResult> Transactions { get; private set; }
 
         /// <summary>
         /// Gets the signature data

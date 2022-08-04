@@ -9,7 +9,7 @@ namespace OmniKassa.Model.Response
     /// Result object for retrieving payment brand object
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    public class RefundInitiate
+    public class RefundResponse
     {
         /// <summary>
         /// The ID of the refund
@@ -79,8 +79,8 @@ namespace OmniKassa.Model.Response
         /// The status of the transaction
         /// </summary>
         [JsonProperty(PropertyName = "status")]
-        [JsonConverter(typeof(EnumJsonConverter<TransactionStatus>))]
-        public TransactionStatus TransactionStatus { get; private set; }
+        [JsonConverter(typeof(EnumJsonConverter<RefundStatus>))]
+        public RefundStatus RefundStatus { get; private set; }
 
         /// <summary>
         /// Description of the refund

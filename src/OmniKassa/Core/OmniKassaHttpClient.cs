@@ -1,6 +1,7 @@
 ﻿#if NETSTANDARD1_3 || NETSTANDARD2_0 || NETSTANDARD2_1 || NET5_0_OR_GREATER
 
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using OmniKassa.Model;
@@ -46,15 +47,17 @@ namespace OmniKassa.Http
         }
 
         /// <summary>
-        /// Retrieves the order status data from OmniKassa
+        /// Initiates a refund on a transaction and returns the refund and the status of the refund
         /// </summary>
-        /// <param name="notification">Notification received from the webhook</param>
-        /// <returns>Order status info</returns>
-        public Task<MerchantOrderStatusResponse> InitiateRefund(ApiNotification notification)
+        /// <param name="transactionId">The ID of the transacion to refund</param>
+        /// <param name="requestId">Unique value to enforce idempotency</param>
+        /// <param name="refundRequest">The refund request with amount and currency to refund. Optional description and Vat category</param>
+        /// <param name="token">Access token</param>
+        /// <returns>Refund status info</returns>
+        public Task<RefundResponse> InitiateRefund(String transactionId, String requestId, RefundRequest refundRequest, String token)
         {
-            return GetAsync<MerchantOrderStatusResponse>(mClient,
-                                       PATH_INITIATE_REFUND + notification.EventName,
-                                       notification.Authentication);
+            var additionalHeaders = new Dictionary<string, string> { { "Request-ID", requestId } };
+            return PostAsync<RefundResponse>(mClient, PATH_INITIATE_REFUND.Replace("{transaction_id}", transactionId), token, refundRequest, additionalHeaders);
         }
 
         /// <summary>
@@ -87,13 +90,21 @@ namespace OmniKassa.Http
             return GetAsync<AccessToken>(mClient, PATH_GET_ACCESS_TOKEN, refreshToken);
         }
 
-        private async Task<T> PostAsync<T>(HttpClient client, string path, string token, object input) where T : class
+        private async Task<T> PostAsync<T>(HttpClient client, string path, string token, object input, Dictionary<string, string> additionalHeaders = null) where T : class
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, path);
             request.Headers.ExpectContinue = false;
             request.Content = GetHttpContentForPost(input);
 
             UpdateHttpClientAuth(client, token);
+
+            if (additionalHeaders != null)
+            {
+                foreach (KeyValuePair<string, string> header in additionalHeaders)
+                {
+                    request.Headers.Add(header.Key, header.Value);
+                }
+            }
 
             HttpResponseMessage response = await client.SendAsync(request);
             return await ProcessResponse<T>(response);

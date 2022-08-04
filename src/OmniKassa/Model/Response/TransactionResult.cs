@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 using OmniKassa.Model.Enums;
 using OmniKassa.Utils;
 
-namespace OmniKassa.Model
+namespace OmniKassa.Model.Response
 {
-    public class Transaction
+    public class TransactionResult
     {
         /// <summary>
         /// The ID of the transaction
