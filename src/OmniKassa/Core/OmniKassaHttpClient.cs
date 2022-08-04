@@ -60,7 +60,6 @@ namespace OmniKassa.Http
             return PostAsync<RefundResponse>(mClient, PATH_INITIATE_REFUND.Replace("{transaction_id}", transactionId), token, refundRequest, additionalHeaders);
         }
 
-
         /// <summary>
         /// Initiates a refund on a transaction and returns the refund and the status of the refund
         /// </summary>
@@ -71,6 +70,17 @@ namespace OmniKassa.Http
         public Task<RefundResponse> GetRefund(String transactionId, String refundId, String token)
         {
             return GetAsync<RefundResponse>(mClient, PATH_GET_REFUND.Replace("{transaction_id}", transactionId).Replace("{refund_id}", refundId), token);
+        }
+
+        /// <summary>
+        /// Retrieves the refunable details of given transaction Id
+        /// </summary>
+        /// <param name="transactionId">The ID of the transacion to fetch refundable details</param>
+        /// <param name="token">Access token</param>
+        /// <returns>Refund status info</returns>
+        public Task<RefundableDetailsResponse> GetRefundableDetails(String transactionId, String token)
+        {
+            return GetAsync<RefundableDetailsResponse>(mClient, PATH_GET_REFUNDABLE_DETAILS.Replace("{transaction_id}", transactionId), token);
         }
 
         /// <summary>
