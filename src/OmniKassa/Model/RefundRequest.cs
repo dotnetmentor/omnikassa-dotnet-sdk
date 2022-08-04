@@ -24,7 +24,7 @@ namespace OmniKassa.Model
         /// </summary>
         [JsonProperty(PropertyName = "vatCategory")]
         [JsonConverter(typeof(EnumJsonConverter<VatCategory>))]
-        public VatCategory VatCategory { get; private set; }
+        public VatCategory? VatCategory { get; private set; }
 
         /// <summary>
         /// Initializes an empty RefundRequest
@@ -53,7 +53,7 @@ namespace OmniKassa.Model
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
             public Money Amount { get; private set; }
             public String Description { get; private set; }
-            public VatCategory VatCategory { get; private set; }
+            public VatCategory? VatCategory { get; private set; }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
             /// <summary>
