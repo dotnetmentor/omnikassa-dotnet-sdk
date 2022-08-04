@@ -46,6 +46,18 @@ namespace OmniKassa.Http
         }
 
         /// <summary>
+        /// Retrieves the order status data from OmniKassa
+        /// </summary>
+        /// <param name="notification">Notification received from the webhook</param>
+        /// <returns>Order status info</returns>
+        public Task<MerchantOrderStatusResponse> InitiateRefund(ApiNotification notification)
+        {
+            return GetAsync<MerchantOrderStatusResponse>(mClient,
+                                       PATH_INITIATE_REFUND + notification.EventName,
+                                       notification.Authentication);
+        }
+
+        /// <summary>
         /// Retrieves the available payment brands
         /// </summary>
         /// <param name="token">Access token</param>

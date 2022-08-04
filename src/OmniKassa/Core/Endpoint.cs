@@ -114,6 +114,19 @@ namespace OmniKassa
                 await RetrieveNewToken();
             }
         }
+
+        /// <summary>
+        /// Retrieves the order status data from OmniKassa
+        /// </summary>
+        /// <param name="notification">Notification received from the webhook</param>
+        /// <returns>Order status info</returns>
+        public async Task<MerchantOrderStatusResponse> InitiateRefund(ApiNotification notification)
+        {
+            notification.ValidateSignature(httpClient.SigningKey);
+
+            MerchantOrderStatusResponse response = await httpClient.GetOrderStatusData(notification);
+            return response;
+        }
     }
 }
 
