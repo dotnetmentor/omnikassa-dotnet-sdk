@@ -105,10 +105,9 @@ namespace OmniKassa
         }
 
         /// <summary>
-        /// Initiates a refund on a transaction and returns the refund and the status of the refund
+        /// Retrieves the refundable details of given transaction Id
         /// </summary>
-        /// <param name="transactionId">The ID of the transacion to refund</param>
-        /// <param name="refundId">Identifier of the refund</param>
+        /// <param name="transactionId">The ID of the transacion to fetch refundable details</param>
         /// <returns>Refund status info</returns>
         public async Task<RefundableDetailsResponse> GetRefundableDetails(String transactionId)
         {

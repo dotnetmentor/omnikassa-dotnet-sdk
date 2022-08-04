@@ -105,6 +105,28 @@ namespace OmniKassa
         }
 
         /// <summary>
+        /// Retrieves the refundable details of given transaction Id
+        /// </summary>
+        /// <param name="transactionId">The ID of the transacion to fetch refundable details</param>
+        /// <returns>Refund status info</returns>
+        public RefundableDetailsResponse GetRefundableDetails(String transactionId)
+        {
+            ValidateAccessToken();
+
+            try
+            {
+                return httpClient.GetRefundableDetails(transactionId, tokenProvider.GetAccessToken());
+            }
+            catch (InvalidAccessTokenException)
+            {
+                // We might have mistakenly assumed the token was still valid
+                RetrieveNewToken();
+
+                return httpClient.GetRefundableDetails(transactionId, tokenProvider.GetAccessToken());
+            }
+        }
+
+        /// <summary>
         /// Retrieves the available payment brands
         /// </summary>
         /// <returns>Payment brands</returns>

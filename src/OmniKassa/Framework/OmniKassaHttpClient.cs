@@ -96,6 +96,17 @@ namespace OmniKassa.Http
         }
 
         /// <summary>
+        /// Retrieves the refundable details of given transaction Id
+        /// </summary>
+        /// <param name="transactionId">The ID of the transacion to fetch refundable details</param>
+        /// <param name="token">Access token</param>
+        /// <returns>Refund status info</returns>
+        public RefundableDetailsResponse GetRefundableDetails(String transactionId, String token)
+        {
+            return GetAsync<RefundableDetailsResponse>(mClient, PATH_GET_REFUNDABLE_DETAILS.Replace("{transaction_id}", transactionId), token);
+        }
+
+        /// <summary>
         /// Retrieves the available payment brands
         /// </summary>
         /// <param name="token">Access token</param>
