@@ -13,7 +13,7 @@ namespace OmniKassa.Utils
 
         private DateTimeUtils()
         {
-            
+
         }
 
         /// <summary>
@@ -40,8 +40,19 @@ namespace OmniKassa.Utils
 
             try
             {
-                DateTime newDate = DateTime.ParseExact(date, DATE_TIME_FORMATTER, CultureInfo.InvariantCulture);
-                return newDate;
+                DateTime parsedDate;
+
+                // if date string is UTC
+                if (date.EndsWith("Z"))
+                {
+                    parsedDate = DateTime.Parse(date, CultureInfo.InvariantCulture);
+                }
+                else
+                {
+                    parsedDate = DateTime.ParseExact(date, DATE_TIME_FORMATTER, CultureInfo.InvariantCulture);
+                }
+
+                return parsedDate;
             }
             catch (Exception)
             {

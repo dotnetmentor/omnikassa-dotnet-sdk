@@ -82,6 +82,29 @@ namespace OmniKassa
         }
 
         /// <summary>
+        /// Initiates a refund on a transaction and returns the refund and the status of the refund
+        /// </summary>
+        /// <param name="transactionId">The ID of the transacion to refund</param>
+        /// <param name="refundId">Identifier of the refund</param>
+        /// <returns>Refund status info</returns>
+        public async Task<RefundResponse> GetRefund(String transactionId, String refundId)
+        {
+            await ValidateAccessToken();
+
+            try
+            {
+                return await httpClient.GetRefund(transactionId, refundId, tokenProvider.GetAccessToken());
+            }
+            catch (InvalidAccessTokenException)
+            {
+                // We might have mistakenly assumed the token was still valid
+                await RetrieveNewToken();
+
+                return await httpClient.GetRefund(transactionId, refundId, tokenProvider.GetAccessToken());
+            }
+        }
+
+        /// <summary>
         /// Retrieves the available payment brands
         /// </summary>
         /// <returns>Payment brands</returns>

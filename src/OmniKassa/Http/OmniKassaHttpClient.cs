@@ -21,7 +21,7 @@ namespace OmniKassa.Http
         private static readonly string PATH_GET_IDEAL_ISSUERS = "ideal/server/api/v2/issuers";
         private static readonly string PATH_GET_ACCESS_TOKEN = "gatekeeper/refresh";
         private static readonly string PATH_INITIATE_REFUND = "order/server/api/v2/refund/transactions/{transaction_id}/refunds";
-        private static readonly string PATH_RETRIEVE_REFUND = "order/server/api/v2/refund/transactions/{transaction_id}/refunds/{refund_id}";
+        private static readonly string PATH_GET_REFUND = "order/server/api/v2/refund/transactions/{transaction_id}/refunds/{refund_id}";
         private static readonly string PATH_GET_REFUNDABLE_DETAILS = "order/server/api/v2/refund/transactions/{transaction_id}/refundable-details";
 
 

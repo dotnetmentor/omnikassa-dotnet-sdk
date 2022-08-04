@@ -84,6 +84,18 @@ namespace OmniKassa.Http
         }
 
         /// <summary>
+        /// Initiates a refund on a transaction and returns the refund and the status of the refund
+        /// </summary>
+        /// <param name="transactionId">The ID of the transacion to refund</param>
+        /// <param name="refundId">Identifier of the refund</param>
+        /// <param name="token">Access token</param>
+        /// <returns>Refund status info</returns>
+        public RefundResponse GetRefund(String transactionId, String refundId, String token)
+        {
+            return GetAsync<RefundResponse>(mClient, PATH_GET_REFUND.Replace("{transaction_id}", transactionId).Replace("{refund_id}", refundId), token);
+        }
+
+        /// <summary>
         /// Retrieves the available payment brands
         /// </summary>
         /// <param name="token">Access token</param>
