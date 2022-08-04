@@ -1,6 +1,7 @@
 ﻿#if NET452
 
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -69,6 +70,20 @@ namespace OmniKassa.Http
         }
 
         /// <summary>
+        /// Initiates a refund on a transaction and returns the refund and the status of the refund
+        /// </summary>
+        /// <param name="transactionId">The ID of the transacion to refund</param>
+        /// <param name="requestId">Unique value to enforce idempotency</param>
+        /// <param name="refundRequest">The refund request with amount and currency to refund. Optional description and Vat category</param>
+        /// <param name="token">Access token</param>
+        /// <returns>Refund status info</returns>
+        public RefundResponse InitiateRefund(String transactionId, String requestId, RefundRequest refundRequest, String token)
+        {
+            var additionalHeaders = new Dictionary<string, string> { { "Request-ID", requestId } };
+            return PostAsync<RefundResponse>(mClient, PATH_INITIATE_REFUND.Replace("{transaction_id}", transactionId), token, refundRequest, additionalHeaders);
+        }
+
+        /// <summary>
         /// Retrieves the available payment brands
         /// </summary>
         /// <param name="token">Access token</param>
@@ -98,13 +113,21 @@ namespace OmniKassa.Http
             return GetAsync<AccessToken>(mClient, PATH_GET_ACCESS_TOKEN, refreshToken);
         }
 
-        private T PostAsync<T>(HttpClient client, string path, string token, object input) where T : class
+        private T PostAsync<T>(HttpClient client, string path, string token, object input, Dictionary<string, string> additionalHeaders = null) where T : class
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, path);
             request.Headers.ExpectContinue = false;
             request.Content = GetHttpContentForPost(input);
 
             UpdateHttpClientAuth(client, token);
+
+            if (additionalHeaders != null)
+            {
+                foreach (KeyValuePair<string, string> header in additionalHeaders)
+                {
+                    request.Headers.Add(header.Key, header.Value);
+                }
+            }
 
             Task<HttpResponseMessage> response = client.SendAsync(request);
             response.Wait();
