@@ -8,7 +8,7 @@ namespace OmniKassa.Model.Response
         /// <summary>
         /// The ID of the transaction
         /// </summary>
-        [JsonProperty(PropertyName = "id")]
+        [JsonProperty(PropertyName = "transactionId")]
         public string TransactionId { get; private set; }
 
         /// <summary>
